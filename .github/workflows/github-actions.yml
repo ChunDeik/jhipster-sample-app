@@ -45,8 +45,14 @@ jobs:
         run: npm test
 
       # Package and build Docker image
-      - name: Build with JIB
-        run: ./mvnw -ntp verify -DskipTests -Pprod jib:dockerBuild
+      - name: Build and Push with JIB
+        if: github.ref == 'refs/heads/main'
+        run: |
+          ./mvnw -ntp verify -DskipTests -Pprod jib:build \
+            -Djib.to.auth.username=${{ secrets.DOCKER_HUB_USERNAME }} \
+            -Djib.to.auth.password=${{ secrets.DOCKER_HUB_TOKEN }} \
+            -Djib.to.image=SCCAssignment/jhipster-sample-app \
+            -Djib.to.tags=latest
 
       # Deployment steps
       - name: Login to Docker Hub
@@ -55,11 +61,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Push Docker image
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker push SCCAssignment/jhipster-sample-app:latest
 
       - name: Deploy to staging
         if: github.ref == 'refs/heads/main'
