@@ -56,16 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build Docker image
+      - name: Build and Run Docker image
         run: |
           docker compose -f src/main/docker/app.yml build
-          docker tag jhipstersampleapplication ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
-
-      - name: Push Docker image
-        if: github.ref == 'refs/heads/main'
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
-
-      - name: Deploy to staging
-        run: |
-          docker compose -f src/main/docker/app.yml down
           docker compose -f src/main/docker/app.yml up -d
