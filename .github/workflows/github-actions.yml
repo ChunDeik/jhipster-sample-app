@@ -51,7 +51,7 @@ jobs:
     name: Deploy with Docker
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # Only deploy on main branch
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/MingSheng-feature'
 
     steps:
       - uses: actions/checkout@v2
