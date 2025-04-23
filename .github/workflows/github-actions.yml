@@ -58,7 +58,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker-compose -f src/main/docker/app.yml build
+          docker compose -f src/main/docker/app.yml build
           docker tag jhipstersampleapplication ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
 
       - name: Push Docker image
@@ -67,5 +67,5 @@ jobs:
 
       - name: Deploy to staging
         run: |
-          docker-compose -f src/main/docker/app.yml down
-          docker-compose -f src/main/docker/app.yml up -d
+          docker compose -f src/main/docker/app.yml down
+          docker compose -f src/main/docker/app.yml up -d
