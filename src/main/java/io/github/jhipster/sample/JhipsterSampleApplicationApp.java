@@ -58,6 +58,8 @@ public class JhipsterSampleApplicationApp {
                 "You have misconfigured your application! It should not " + "run with both the 'dev' and 'cloud' profiles at the same time."
             );
         }
+
+        // this line of code is placed in initApplication()
         if (activeProfiles.contains("dev")) {
             LOG.info(
                 CRLFLogConverter.CRLF_SAFE_MARKER,
