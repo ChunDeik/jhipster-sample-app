@@ -59,7 +59,7 @@ jobs:
       - name: Push Docker image
         if: github.ref == 'refs/heads/main'
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
+          docker push SCCAssignment/jhipster-sample-app:latest
 
       - name: Deploy to staging
         if: github.ref == 'refs/heads/main'
