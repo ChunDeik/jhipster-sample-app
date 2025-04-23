@@ -40,7 +40,7 @@ jobs:
       - name: 'E2E: Teardown'
         run: npm run ci:e2e:teardown
       - name: Upload backend reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v1
         if: always()
         with:
           name: backend-reports
@@ -49,7 +49,7 @@ jobs:
             target/jacoco/jacoco.xml
 
       - name: Upload frontend reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v1
         if: always()
         with:
           name: frontend-reports
@@ -58,7 +58,7 @@ jobs:
             coverage/
 
       - name: Upload E2E reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v1
         if: always()
         with:
           name: e2e-reports
