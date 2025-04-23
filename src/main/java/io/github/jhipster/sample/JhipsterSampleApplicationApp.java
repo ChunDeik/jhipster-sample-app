@@ -58,6 +58,20 @@ public class JhipsterSampleApplicationApp {
                 "You have misconfigured your application! It should not " + "run with both the 'dev' and 'cloud' profiles at the same time."
             );
         }
+        if (activeProfiles.contains("dev")) {
+            LOG.info(
+                CRLFLogConverter.CRLF_SAFE_MARKER,
+                """
+
+                _   _ _____ _     _   _____ _____ _____ _____ _____
+                | | | |  _  | |   | | /  ___|  ___/  __ \\_   _/  ___|
+                | |_| | | | | |   | | \\ `--.| |__ | /  \\/ | | \\ `--.
+                |  _  | | | | |   | |  `--. \\  __|| |     | |  `--. \\
+                | | | \\ \\_/ / |___| | /\\__/ / |___| \\__/\\_| |_/\\__/ /
+                \\_| |_/\\___/\\_____/|_|\\____/\\____/ \\____/\\___/\\____/
+                """
+            );
+        }
     }
 
     /**
@@ -105,18 +119,21 @@ public class JhipsterSampleApplicationApp {
             contextPath,
             env.getActiveProfiles().length == 0 ? env.getDefaultProfiles() : env.getActiveProfiles()
         );
-        
+
         // this code snippet is added to logApplicationStartup()
         if (activeProfiles.contains("dev")) {
-        LOG.info(CRLFLogConverter.CRLF_SAFE_MARKER, """
-        
-        _   _ _____ _     _   _____ _____ _____ _____ _____
-        | | | |  _  | |   | | /  ___|  ___/  __ \\_   _/  ___|
-        | |_| | | | | |   | | \\ `--.| |__ | /  \\/ | | \\ `--.
-        |  _  | | | | |   | |  `--. \\  __|| |     | |  `--. \\
-        | | | \\ \\_/ / |___| | /\\__/ / |___| \\__/\\_| |_/\\__/ /
-        \\_| |_/\\___/\\_____/|_|\\____/\\____/ \\____/\\___/\\____/
-        """);
-}
+            LOG.info(
+                CRLFLogConverter.CRLF_SAFE_MARKER,
+                """
+
+                _   _ _____ _     _   _____ _____ _____ _____ _____
+                | | | |  _  | |   | | /  ___|  ___/  __ \\_   _/  ___|
+                | |_| | | | | |   | | \\ `--.| |__ | /  \\/ | | \\ `--.
+                |  _  | | | | |   | |  `--. \\  __|| |     | |  `--. \\
+                | | | \\ \\_/ / |___| | /\\__/ / |___| \\__/\\_| |_/\\__/ /
+                \\_| |_/\\___/\\_____/|_|\\____/\\____/ \\____/\\___/\\____/
+                """
+            );
+        }
     }
 }
