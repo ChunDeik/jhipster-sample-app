@@ -56,11 +56,6 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Tag Docker image
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker tag jhipster-sample-application ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
-
       - name: Push Docker image
         if: github.ref == 'refs/heads/main'
         run: |
