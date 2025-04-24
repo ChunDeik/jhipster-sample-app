@@ -29,6 +29,7 @@ jobs:
           npm run ci:backend:test
       - name: Run frontend test
         run: npm run ci:frontend:test
+
       - name: Build JAR with Maven
         run: ./mvnw -Pprod clean verify
       - name: 'E2E: Package'
