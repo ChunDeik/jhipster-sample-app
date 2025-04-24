@@ -62,6 +62,6 @@ jobs:
             --name app \
             --network jhipster-net \
             -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/jhipsterSampleApplication \
-            your-dockerhub-username/jhipster-sample-app:latest
+            chundeik24/jhipster-sample-app:latest
           sleep 20
           curl http://localhost:8081
