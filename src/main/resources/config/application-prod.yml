@@ -33,7 +33,7 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/jhipsterSampleApplication
+    url: jdbc:postgresql://jhipstersampleapplication-postgresql-1:5432/jhipsterSampleApplication
     username: jhipsterSampleApplication
     password:
     hikari:
