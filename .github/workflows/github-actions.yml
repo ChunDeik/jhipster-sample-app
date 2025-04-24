@@ -51,15 +51,21 @@ jobs:
     name: Deploy with Docker
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/MingSheng-feature'
-
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build Docker image
+      - name: Verify Secrets
+        run: |
+          echo "DOCKER_HUB_USERNAME exists: ${{ secrets.DOCKER_HUB_USERNAME != '' }}"
+          echo "DOCKER_HUB_TOKEN exists: ${{ secrets.DOCKER_HUB_TOKEN != '' }}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and Tag Image
         run: |
           docker compose -f src/main/docker/app.yml build
           docker tag jhipstersampleapplication ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
-
-      - name: Start containers
-        run: docker compose -f src/main/docker/app.yml up -d
