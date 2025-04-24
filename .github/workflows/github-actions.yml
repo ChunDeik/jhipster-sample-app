@@ -39,26 +39,11 @@ jobs:
         run: npm run ci:e2e:run
       - name: 'E2E: Teardown'
         run: npm run ci:e2e:teardown
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
-        # Package and build Docker image
-      - name: Build and Push with JIB
-        if: github.ref == 'refs/heads/main'
-        run: |
-          ./mvnw -ntp verify -DskipTests -Pprod jib:build \
-            -Djib.to.auth.username=${{ secrets.DOCKER_HUB_USERNAME }} \
-            -Djib.to.auth.password=${{ secrets.DOCKER_HUB_TOKEN }} \
-            -Djib.to.image=SCCAssignment/jhipster-sample-app \
-            -Djib.to.tags=latest
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/jhipster-sample-app:latest .
 
-      # Deployment steps
-      - name: Login to Docker Hub
-        if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Deploy to staging
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker-compose -f src/main/docker/app.yml up -d
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/jhipster-sample-app:latest
