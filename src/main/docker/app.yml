@@ -2,7 +2,7 @@
 name: jhipstersampleapplication
 services:
   app:
-    image: ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
+    image: '${DOCKER_IMAGE_NAME}'
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
