@@ -2,8 +2,10 @@
 name: jhipstersampleapplication
 services:
   app:
-    build: .
-    image: jhipstersampleapplication
+    build:
+      context: ../..
+      dockerfile: .devcontainer/devcontainer.json
+    image: $DOCKER_HUB_USERNAME/jhipster-sample-app
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs

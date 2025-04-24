@@ -65,7 +65,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Build and Tag Image
+      - name: Build JAR
+        run: ./mvnw package -Pprod
+
+      - name: Build and Push Image
         run: |
           docker compose -f src/main/docker/app.yml build
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
