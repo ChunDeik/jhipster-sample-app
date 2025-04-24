@@ -69,3 +69,4 @@ jobs:
         run: |
           docker compose -f src/main/docker/app.yml build
           docker tag jhipstersampleapplication ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
