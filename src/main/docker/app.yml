@@ -11,15 +11,15 @@ services:
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgresql:5432/jhipsterSampleApplication
     ports:
       - 127.0.0.1:8081:8080
-    healthcheck:
-      test:
-        - CMD
-        - curl
-        - -f
-        - http://localhost:8080/management/health
-      interval: 5s
-      timeout: 5s
-      retries: 40
+    # healthcheck:
+    #   test:
+    #     - CMD
+    #     - curl
+    #     - -f
+    #     - http://localhost:8080/management/health
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 40
     depends_on:
       postgresql:
         condition: service_healthy
