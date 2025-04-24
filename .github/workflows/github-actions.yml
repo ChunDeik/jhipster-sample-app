@@ -48,3 +48,20 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
+
+      - name: Run Docker Container (simulate deployment)
+        run: |
+          docker network create jhipster-net
+          docker run -d --name db \
+            -e POSTGRES_PASSWORD=admin \
+            -e POSTGRES_USER=admin \
+            -e POSTGRES_DB=jhipsterSampleApplication \
+            --network jhipster-net \
+            postgres:15
+          docker run -d -p 8081:8080 \
+            --name app \
+            --network jhipster-net \
+            -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/jhipsterSampleApplication \
+            your-dockerhub-username/jhipster-sample-app:latest
+          sleep 20
+          curl http://localhost:8081
