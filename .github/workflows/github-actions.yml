@@ -123,6 +123,6 @@ jobs:
           docker-compose logs
           exit 1
 
-      - name: Tear down Docker
-        if: always()
-        run: docker-compose -f src/main/docker/app.yml down
+      # - name: Tear down Docker
+      #   if: always()
+      #   run: docker-compose -f src/main/docker/app.yml down
