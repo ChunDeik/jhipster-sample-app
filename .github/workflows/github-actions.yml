@@ -126,6 +126,9 @@ jobs:
           docker-compose logs
           exit 1
 
+      - name: Check running containers
+        run: docker ps
+
       # - name: Tear down Docker
       #   if: always()
       #   run: docker-compose -f src/main/docker/app.yml down
