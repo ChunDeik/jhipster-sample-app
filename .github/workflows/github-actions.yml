@@ -29,6 +29,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest .
 
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
+
       - name: Set Docker image name
         id: set_image
         run: echo "image=${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest" >> $GITHUB_OUTPUT
