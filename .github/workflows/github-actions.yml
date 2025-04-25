@@ -26,19 +26,6 @@ jobs:
       - name: Build JAR with Maven
         run: ./mvnw -Pprod clean verify
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest .
-
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-
-      - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
-
-      - name: Set Docker image name
-        id: set_image
-        run: echo "image=${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest" >> $GITHUB_OUTPUT
-
   backend-test:
     name: Backend Tests
     runs-on: ubuntu-latest
@@ -93,45 +80,18 @@ jobs:
       - name: 'E2E: Teardown'
         run: npm run ci:e2e:teardown
 
-  deploy:
-    name: Deploy Locally with Docker Compose
-    runs-on: ubuntu-latest
-    needs: [build, backend-test, frontend-test, e2e]
-    steps:
-      - uses: actions/checkout@v2
+    deploy:
+      name: Build & Push Docker Image to Docker Hub
+      runs-on: ubuntu-latest
+      needs: [build, backend-test, frontend-test, e2e]
+      steps:
+        - uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+        - name: Log in to Docker Hub
+          run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
-      - name: Set Docker image name env
-        run: echo "DOCKER_IMAGE_NAME=${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest" >> $GITHUB_ENV
+        - name: Build Docker image
+          run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest .
 
-      - name: Install docker-compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose version
-
-      - name: Run app using Docker Compose
-        run: docker-compose -f src/main/docker/app.yml up -d
-
-      - name: Wait for app to be ready
-        run: |
-          for i in {1..40}; do
-            if curl -f http://localhost:8080/management/health; then
-              echo "App is ready!"
-              exit 0
-            fi
-            echo "Waiting for app..."
-            sleep 5
-          done
-          echo "App did not start in time"
-          docker-compose logs
-          exit 1
-
-      - name: Check running containers
-        run: docker ps
-
-      # - name: Tear down Docker
-      #   if: always()
-      #   run: docker-compose -f src/main/docker/app.yml down
+        - name: Push Docker image to Docker Hub
+          run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/jhipster-sample-app:latest
